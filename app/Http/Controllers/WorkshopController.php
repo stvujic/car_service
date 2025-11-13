@@ -11,7 +11,7 @@ class WorkshopController extends Controller
     public function index()
     {
         $workshops = Workshop::where('is_verified', true)->paginate(12);
-        return view('workshops.index', compact('workshops'));
+        return view('workshops_index', compact('workshops'));
     }
 
     public function show(string $slug)
@@ -27,6 +27,6 @@ class WorkshopController extends Controller
             ->where('is_verified', true)
             ->firstOrFail();
 
-        return view('workshops.show', compact('workshop'));
+        return view('workshops_show', compact('workshop'));
     }
 }

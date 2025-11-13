@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WorkshopController;
 use Illuminate\Support\Facades\Route;
+use App\http\Controllers\Owner\ShopController as OwnerShopController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -15,6 +16,13 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard/shops' , [OwnerShopController::class, 'index'])->name('owner_workshops_index');
+    Route::get('/dashboard/shops/create' , [OwnerShopController::class, 'create'])->name('owner_workshops_create');
+    Route::post('/dashboard/shops' , [OwnerShopController::class, 'store'])->name('owner_workshops_store');
+    Route::get('/dashboard/shops/{id}/edit' , [OwnerShopController::class, 'edit'])->name('owner_workshops_edit');
+    Route::put('/dashboard/shops/{id}' , [OwnerShopController::class, 'update'])->name('owner_workshops_update');
+    Route::delete('/dashboard/shops/{id}' , [OwnerShopController::class, 'destroy'])->name('owner_workshops_destroy');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
