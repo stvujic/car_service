@@ -46,6 +46,13 @@
                             @endif
                         </td>
                         <td class="text-end">
+
+                            {{-- Services dugme --}}
+                            <a href="{{ route('owner_services_index', $workshop->id) }}"
+                               class="btn btn-sm btn-info text-white">
+                                Services
+                            </a>
+
                             {{-- Public prikaz --}}
                             <a href="{{ route('workshops_show', $workshop->slug) }}"
                                class="btn btn-sm btn-outline-secondary">

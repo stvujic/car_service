@@ -72,5 +72,122 @@
             </a>
         </form>
 
+        {{-- 👇👇👇 NOVI DEO: SERVICES ZA OVAJ WORKSHOP --}}
+
+        <hr class="my-4">
+
+        <h2 class="mb-3">Services for this workshop</h2>
+
+        {{-- Forma za dodavanje nove usluge --}}
+        <div class="card mb-4">
+            <div class="card-header">
+                Add new service
+            </div>
+            <div class="card-body">
+                <form action="{{ route('owner_services_store', $workshop->id) }}" method="POST">
+                    @csrf
+
+                    <div class="mb-3">
+                        <label class="form-label">Service name</label>
+                        <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Duration (minutes)</label>
+                            <input type="number" name="duration_minutes" class="form-control" value="{{ old('duration_minutes') }}" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Price (cents)</label>
+                            <input type="number" name="price_cents" class="form-control" value="{{ old('price_cents') }}" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Price (RSD)</label>
+                            <input type="number" name="price" class="form-control" value="{{ old('price') }}">
+                            <div class="form-text">Optional if you're using cents system.</div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Add service
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        {{-- Lista postojećih usluga --}}
+        <h3 class="mb-3">Existing services</h3>
+
+        @if($workshop->services->isEmpty())
+            <p class="text-muted">There are no services for this workshop yet.</p>
+        @else
+            <table class="table table-bordered align-middle">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th style="width: 120px;">Price</th>
+                    <th style="width: 200px;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($workshop->services as $service)
+                    <tr>
+                        <td colspan="3">
+                            <form action="{{ route('owner_services_update', [$workshop->id, $service->id]) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+
+                                <div class="row g-3 align-items-end">
+
+                                    <div class="col-md-3">
+                                        <label class="form-label">Name</label>
+                                        <input type="text" name="name"
+                                               class="form-control"
+                                               value="{{ old('name_'.$service->id, $service->name) }}">
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label class="form-label">Duration (minutes)</label>
+                                        <input type="number" name="duration_minutes"
+                                               class="form-control"
+                                               value="{{ old('duration_minutes_'.$service->id, $service->duration_minutes) }}">
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label class="form-label">Price (cents)</label>
+                                        <input type="number" name="price_cents"
+                                               class="form-control"
+                                               value="{{ old('price_cents_'.$service->id, $service->price_cents) }}">
+                                    </div>
+
+                                    <div class="col-md-3 d-flex gap-2">
+                                        <button type="submit" class="btn btn-success w-100">
+                                            Save
+                                        </button>
+
+                                        <form action="{{ route('owner_services_destroy', [$workshop->id, $service->id]) }}"
+                                              method="POST"
+                                              onsubmit="return confirm('Are you sure?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger w-100">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
+
+                                </div>
+
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        @endif
+
+
     </div>
 @endsection
