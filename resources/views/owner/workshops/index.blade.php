@@ -53,6 +53,11 @@
                                 Services
                             </a>
 
+                            <a href="{{ route('owner_schedule_edit', $workshop->id) }}"
+                               class="btn btn-sm btn-outline-info">
+                                Schedule
+                            </a>
+
                             {{-- Public prikaz --}}
                             <a href="{{ route('workshops_show', $workshop->slug) }}"
                                class="btn btn-sm btn-outline-secondary">

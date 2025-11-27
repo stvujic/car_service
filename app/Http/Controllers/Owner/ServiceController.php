@@ -10,6 +10,7 @@ use App\Models\Workshop;
 
 class ServiceController extends Controller
 {
+
     public function index(int $workshopId)
     {
         abort_unless(auth()->user()->role === 'owner', 403);

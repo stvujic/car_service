@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('working_hours', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('workshop_id')->constrained('workshops')->cascadeOnDelete();
+            $table->foreignId('workshop_id')->constrained()->cascadeOnDelete();
             $table->unsignedTinyInteger('day_of_week');
-            $table->time('open_time');
-            $table->time('close_time');
+            $table->boolean('is_working_day')->default(1);
+            $table->time('open_time')->nullable();
+            $table->time('close_time')->nullable();
             $table->time('break_start')->nullable();
             $table->time('break_end')->nullable();
             $table->timestamps();

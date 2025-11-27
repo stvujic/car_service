@@ -6,6 +6,7 @@ use App\Http\Controllers\WorkshopController;
 use Illuminate\Support\Facades\Route;
 use App\http\Controllers\Owner\ShopController as OwnerShopController;
 use App\http\Controllers\Owner\ServiceController as OwnerServiceController;
+use App\http\Controllers\Owner\ScheduleController as OwnerScheduleController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -31,6 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/dashboard/shops/{workshopId}/services/{serviceId}', [OwnerServiceController::class, 'update'])->name('owner_services_update');
     Route::delete('/dashboard/shops/{workshopId}/services/{serviceId}', [OwnerServiceController::class, 'destroy'])->name('owner_services_destroy');
 
+    Route::get('/dashboard/shops/{workshopId}/schedule', [OwnerScheduleController::class, 'edit'])->name('owner_schedule_edit');
+    Route::post('/dashboard/shops/{workshopId}/working-hours', [OwnerScheduleController::class, 'upsertWorkingHours'])->name('owner_schedule_working_hours_upsert');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
